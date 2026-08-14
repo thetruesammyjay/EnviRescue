@@ -15,7 +15,9 @@ router = APIRouter(prefix="/waste", tags=["waste reports"])
 
 
 @router.post("", response_model=WasteReportRead, status_code=status.HTTP_201_CREATED)
-async def create(payload: WasteReportCreate, session: DatabaseSession, user: CurrentUser) -> WasteReportRead:
+async def create(
+    payload: WasteReportCreate, session: DatabaseSession, user: CurrentUser
+) -> WasteReportRead:
     return WasteReportRead.model_validate(await create_report(session, user.id, payload))
 
 
@@ -26,24 +28,34 @@ async def list_user_reports(
     page: Annotated[int, Query(ge=1)] = 1,
     page_size: Annotated[int, Query(ge=1, le=100)] = 20,
 ) -> WasteReportPage:
-    items, total = await list_reports(session, user.id, pagination_offset(page, page_size), page_size)
+    items, total = await list_reports(
+        session, user.id, pagination_offset(page, page_size), page_size
+    )
     return WasteReportPage(items=items, page=page, page_size=page_size, total=total)
 
 
-async def owned_report(session: DatabaseSession, user: CurrentUser, report_id: uuid.UUID) -> WasteReport:
-    report = await session.scalar(select(WasteReport).where(WasteReport.id == report_id, WasteReport.user_id == user.id))
+async def owned_report(
+    session: DatabaseSession, user: CurrentUser, report_id: uuid.UUID
+) -> WasteReport:
+    report = await session.scalar(
+        select(WasteReport).where(WasteReport.id == report_id, WasteReport.user_id == user.id)
+    )
     if report is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Waste report not found.")
     return report
 
 
 @router.get("/{report_id}", response_model=WasteReportRead)
-async def get_report(report_id: uuid.UUID, session: DatabaseSession, user: CurrentUser) -> WasteReportRead:
+async def get_report(
+    report_id: uuid.UUID, session: DatabaseSession, user: CurrentUser
+) -> WasteReportRead:
     return WasteReportRead.model_validate(await owned_report(session, user, report_id))
 
 
 @router.patch("/{report_id}", response_model=WasteReportRead)
-async def update_report(report_id: uuid.UUID, payload: WasteReportUpdate, session: DatabaseSession, user: CurrentUser) -> WasteReportRead:
+async def update_report(
+    report_id: uuid.UUID, payload: WasteReportUpdate, session: DatabaseSession, user: CurrentUser
+) -> WasteReportRead:
     report = await owned_report(session, user, report_id)
     for field, value in payload.model_dump(exclude_unset=True).items():
         setattr(report, field, value)
@@ -53,7 +65,9 @@ async def update_report(report_id: uuid.UUID, payload: WasteReportUpdate, sessio
 
 
 @router.delete("/{report_id}", response_model=Message)
-async def delete_report(report_id: uuid.UUID, session: DatabaseSession, user: CurrentUser) -> Message:
+async def delete_report(
+    report_id: uuid.UUID, session: DatabaseSession, user: CurrentUser
+) -> Message:
     await owned_report(session, user, report_id)
     await session.execute(delete(WasteReport).where(WasteReport.id == report_id))
     await session.commit()

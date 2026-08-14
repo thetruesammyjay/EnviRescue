@@ -17,5 +17,9 @@ async def zones(session: DatabaseSession) -> list[CollectionZone]:
 
 @router.get("/upcoming", response_model=list[CollectionScheduleRead])
 async def upcoming(session: DatabaseSession) -> list[CollectionSchedule]:
-    query = select(CollectionSchedule).where(CollectionSchedule.collection_date >= datetime.now(UTC)).order_by(CollectionSchedule.collection_date)
+    query = (
+        select(CollectionSchedule)
+        .where(CollectionSchedule.collection_date >= datetime.now(UTC))
+        .order_by(CollectionSchedule.collection_date)
+    )
     return list((await session.scalars(query)).all())

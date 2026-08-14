@@ -1,6 +1,17 @@
 from fastapi import APIRouter
 
-from app.api.routes import admin, auth, categories, classifications, collections, dashboard, recycling, reports, users, waste
+from app.api.routes import (
+    admin,
+    auth,
+    categories,
+    classifications,
+    collections,
+    dashboard,
+    recycling,
+    reports,
+    users,
+    waste,
+)
 
 api_router = APIRouter()
 api_router.include_router(auth.router)

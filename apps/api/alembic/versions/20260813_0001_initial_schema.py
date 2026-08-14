@@ -3,8 +3,9 @@
 from collections.abc import Sequence
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision: str = "20260813_0001"
 down_revision: str | None = None
@@ -17,8 +18,12 @@ collection_status = sa.Enum("SCHEDULED", "COMPLETED", "CANCELLED", name="collect
 
 def timestamp_columns() -> list[sa.Column]:
     return [
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column(
+            "created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False
+        ),
     ]
 
 
@@ -63,7 +68,12 @@ def upgrade() -> None:
     op.create_table(
         "recycling_tips",
         sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True),
-        sa.Column("category_id", postgresql.UUID(as_uuid=True), sa.ForeignKey("waste_categories.id", ondelete="CASCADE"), nullable=False),
+        sa.Column(
+            "category_id",
+            postgresql.UUID(as_uuid=True),
+            sa.ForeignKey("waste_categories.id", ondelete="CASCADE"),
+            nullable=False,
+        ),
         sa.Column("guidance", sa.Text(), nullable=False),
         *timestamp_columns(),
     )
@@ -72,8 +82,18 @@ def upgrade() -> None:
     op.create_table(
         "waste_reports",
         sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True),
-        sa.Column("user_id", postgresql.UUID(as_uuid=True), sa.ForeignKey("users.id", ondelete="CASCADE"), nullable=False),
-        sa.Column("category_id", postgresql.UUID(as_uuid=True), sa.ForeignKey("waste_categories.id"), nullable=False),
+        sa.Column(
+            "user_id",
+            postgresql.UUID(as_uuid=True),
+            sa.ForeignKey("users.id", ondelete="CASCADE"),
+            nullable=False,
+        ),
+        sa.Column(
+            "category_id",
+            postgresql.UUID(as_uuid=True),
+            sa.ForeignKey("waste_categories.id"),
+            nullable=False,
+        ),
         sa.Column("quantity_kg", sa.Numeric(10, 2), nullable=False),
         sa.Column("location", sa.String(255), nullable=False),
         sa.Column("description", sa.Text()),
@@ -88,7 +108,13 @@ def upgrade() -> None:
     op.create_table(
         "classifications",
         sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True),
-        sa.Column("waste_report_id", postgresql.UUID(as_uuid=True), sa.ForeignKey("waste_reports.id", ondelete="CASCADE"), nullable=False, unique=True),
+        sa.Column(
+            "waste_report_id",
+            postgresql.UUID(as_uuid=True),
+            sa.ForeignKey("waste_reports.id", ondelete="CASCADE"),
+            nullable=False,
+            unique=True,
+        ),
         sa.Column("predicted_category", sa.String(80), nullable=False),
         sa.Column("confidence", sa.Numeric(5, 4), nullable=False),
         sa.Column("model_name", sa.String(255)),
@@ -96,21 +122,32 @@ def upgrade() -> None:
         sa.Column("manually_corrected", sa.Boolean(), nullable=False),
         *timestamp_columns(),
     )
-    op.create_index("ix_classifications_predicted_category", "classifications", ["predicted_category"])
+    op.create_index(
+        "ix_classifications_predicted_category", "classifications", ["predicted_category"]
+    )
     op.create_index("ix_classifications_requires_review", "classifications", ["requires_review"])
 
     op.create_table(
         "collection_schedules",
         sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True),
-        sa.Column("zone_id", postgresql.UUID(as_uuid=True), sa.ForeignKey("collection_zones.id", ondelete="CASCADE"), nullable=False),
+        sa.Column(
+            "zone_id",
+            postgresql.UUID(as_uuid=True),
+            sa.ForeignKey("collection_zones.id", ondelete="CASCADE"),
+            nullable=False,
+        ),
         sa.Column("collection_date", sa.DateTime(timezone=True), nullable=False),
         sa.Column("status", collection_status, nullable=False),
         *timestamp_columns(),
     )
     op.create_index("ix_collection_schedules_zone_id", "collection_schedules", ["zone_id"])
-    op.create_index("ix_collection_schedules_collection_date", "collection_schedules", ["collection_date"])
+    op.create_index(
+        "ix_collection_schedules_collection_date", "collection_schedules", ["collection_date"]
+    )
     op.create_index("ix_collection_schedules_status", "collection_schedules", ["status"])
-    op.create_index("ix_collection_zone_date", "collection_schedules", ["zone_id", "collection_date"])
+    op.create_index(
+        "ix_collection_zone_date", "collection_schedules", ["zone_id", "collection_date"]
+    )
 
 
 def downgrade() -> None:

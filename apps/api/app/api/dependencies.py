@@ -41,7 +41,9 @@ CurrentUser = Annotated[User, Depends(get_current_user)]
 
 async def get_current_admin(user: CurrentUser) -> User:
     if user.role != UserRole.ADMIN:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Administrator access is required.")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Administrator access is required."
+        )
     return user
 
 

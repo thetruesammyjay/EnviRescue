@@ -10,4 +10,10 @@ router = APIRouter(prefix="/categories", tags=["categories"])
 
 @router.get("", response_model=list[CategoryRead])
 async def list_categories(session: DatabaseSession) -> list[WasteCategory]:
-    return list((await session.scalars(select(WasteCategory).where(WasteCategory.is_active).order_by(WasteCategory.name))).all())
+    return list(
+        (
+            await session.scalars(
+                select(WasteCategory).where(WasteCategory.is_active).order_by(WasteCategory.name)
+            )
+        ).all()
+    )

@@ -22,8 +22,12 @@ async def register(payload: UserCreate, session: DatabaseSession) -> UserRead:
 async def login(payload: LoginRequest, session: DatabaseSession) -> TokenResponse:
     user = await authenticate_user(session, payload.email, payload.password)
     if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or password.")
-    return TokenResponse(access_token=create_access_token(str(user.id)), user=UserRead.model_validate(user))
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or password."
+        )
+    return TokenResponse(
+        access_token=create_access_token(str(user.id)), user=UserRead.model_validate(user)
+    )
 
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)

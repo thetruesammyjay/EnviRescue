@@ -418,13 +418,14 @@ Users should avoid uploading images containing faces, private documents, or othe
 - Node.js 20 or newer
 - pnpm
 - Python 3.11 or newer
+- uv
 - Git
 - Neon account
 - Upstash account
 - Hugging Face account
 - An image-storage service account once a provider is selected
 
-### Planned Setup
+### Setup
 
 ```bash
 git clone https://github.com/thetruesammyjay/envirescue.git
@@ -432,13 +433,13 @@ cd envirescue
 pnpm install
 ```
 
-Create and activate a Python virtual environment in `apps/api`, install the backend requirements, and apply database migrations:
+Use uv to create the backend virtual environment, install locked dependencies, and apply database migrations:
 
 ```bash
 cd apps/api
-python -m venv .venv
-pip install -r requirements.txt
-alembic upgrade head
+uv sync --dev
+cp .env.example .env
+uv run alembic upgrade head
 ```
 
 Start the frontend and backend in separate terminals:
@@ -449,10 +450,8 @@ pnpm dev
 
 ```bash
 cd apps/api
-uvicorn app.main:app --reload --port 8000
+uv run uvicorn app.main:app --reload --port 8000
 ```
-
-These commands become usable after the corresponding application files have been implemented.
 
 ### Environment Variables
 

@@ -1,6 +1,6 @@
-import enum
 import uuid
 from datetime import datetime
+from enum import StrEnum
 
 from sqlalchemy import DateTime, Enum, ForeignKey, Index, String
 from sqlalchemy.dialects.postgresql import UUID
@@ -10,7 +10,7 @@ from app.core.database import Base
 from app.models.mixins import TimestampMixin, UUIDPrimaryKeyMixin
 
 
-class CollectionStatus(str, enum.Enum):
+class CollectionStatus(StrEnum):
     SCHEDULED = "scheduled"
     COMPLETED = "completed"
     CANCELLED = "cancelled"
@@ -22,7 +22,9 @@ class CollectionZone(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     name: Mapped[str] = mapped_column(String(120), unique=True, index=True)
     region: Mapped[str] = mapped_column(String(120), index=True)
 
-    schedules = relationship("CollectionSchedule", back_populates="zone", cascade="all, delete-orphan")
+    schedules = relationship(
+        "CollectionSchedule", back_populates="zone", cascade="all, delete-orphan"
+    )
 
 
 class CollectionSchedule(UUIDPrimaryKeyMixin, TimestampMixin, Base):
