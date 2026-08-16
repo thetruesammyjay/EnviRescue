@@ -21,22 +21,21 @@ export default function HomePage() {
     <AppShell>
       <div className="space-y-8">
 
-        {/* ── Hero (visible image on mobile & desktop, reduced vertical padding) ── */}
-        <section className="rounded-3xl bg-[#e0f8ee] border border-emerald-200 overflow-hidden flex flex-col-reverse sm:flex-row items-center">
-          <div className="flex-1 p-5 sm:p-7 flex flex-col justify-center space-y-2.5 w-full">
-            <p className="text-[11px] font-medium uppercase tracking-widest text-emerald-700">
+        {/* ── Hero ── */}
+        <section className="rounded-3xl bg-[#e0f8ee] border border-emerald-200 overflow-hidden flex flex-col-reverse sm:flex-row items-center justify-between p-5 sm:p-7 gap-6">
+          <div className="flex-1 flex flex-col justify-center space-y-3 w-full">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-700">
               AI-Powered Waste Management
             </p>
-            <h1 className="text-2xl sm:text-4xl font-semibold tracking-tight text-slate-900 leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 leading-tight">
               Classify. Recycle.<br className="hidden sm:inline" /> Track impact.
             </h1>
-            <p className="text-xs sm:text-sm font-light text-slate-600 leading-relaxed max-w-sm">
+            <p className="text-xs sm:text-sm font-normal text-slate-600 leading-relaxed max-w-sm">
               AI-assisted waste classification, recycling guidance, and collection tracking.
             </p>
-            <div className="flex items-center gap-2 pt-1">
+            <div className="flex items-center gap-2.5 pt-1">
               <Link href="/classify">
                 <Button size="sm" variant="primary">
-                  <IconScan className="h-3.5 w-3.5" />
                   <span>Classify Waste</span>
                 </Button>
               </Link>
@@ -48,11 +47,11 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Hero illustration — shown on mobile and desktop */}
-          <div className="w-full sm:w-60 md:w-72 h-36 sm:h-auto sm:self-stretch relative shrink-0 overflow-hidden">
+          {/* Hero image — fully contained and nicely rounded on mobile & desktop */}
+          <div className="w-full sm:w-64 md:w-80 h-44 sm:h-52 rounded-2xl overflow-hidden shadow-xs relative shrink-0 border border-emerald-300/40 bg-white">
             <img
               alt="Waste sorting"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="w-full h-full object-cover object-center"
               src="/hero.jpg"
             />
           </div>
@@ -80,15 +79,15 @@ export default function HomePage() {
                 key={category.id}
               >
                 <div
-                  className={`relative w-full aspect-square rounded-2xl sm:rounded-[1.75rem] overflow-hidden border border-slate-200/60 transition-transform duration-150 group-hover:scale-[1.02] ${category.bgColor}`}
+                  className={`relative w-full aspect-square rounded-2xl sm:rounded-[1.75rem] overflow-hidden border border-slate-200/60 transition-transform duration-150 group-hover:scale-[1.02] flex items-center justify-center p-3 sm:p-4 ${category.bgColor}`}
                 >
                   <img
                     alt={category.name}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="max-h-full max-w-full object-contain"
                     src={VECTOR_MAP[category.iconKey]}
                   />
                 </div>
-                <p className="mt-2 text-xs sm:text-sm font-light text-slate-800 truncate">
+                <p className="mt-2 text-xs sm:text-sm font-medium text-slate-800 text-center truncate">
                   {category.name}
                 </p>
               </Link>

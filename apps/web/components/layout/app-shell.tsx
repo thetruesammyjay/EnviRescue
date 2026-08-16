@@ -128,7 +128,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Tooltip label={user.fullName} position="bottom">
                 <button
                   aria-label="User profile menu"
-                  className="w-9 h-9 rounded-xl bg-emerald-800 text-white flex items-center justify-center text-xs font-bold hover:opacity-95 active:scale-95 transition-all shadow-xs"
+                  className="w-9 h-9 rounded-full bg-white border-2 border-emerald-600 text-emerald-800 flex items-center justify-center text-xs font-bold hover:bg-emerald-50 active:scale-95 transition-all shadow-xs"
                   onClick={() => setMenuOpen((v) => !v)}
                 >
                   {user.fullName.charAt(0)}
