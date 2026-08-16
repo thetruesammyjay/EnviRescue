@@ -202,7 +202,10 @@ async def classifications_for_review(
             "id": str(item.id),
             "waste_report_id": str(item.waste_report_id),
             "predicted_category": item.predicted_category,
-            "confidence": float(item.confidence),
+            "confidence": float(item.confidence) if item.confidence is not None else None,
+            "status": item.classification_status,
+            "source": item.classification_source,
+            "error_message": item.error_message,
         }
         for item in rows
     ]

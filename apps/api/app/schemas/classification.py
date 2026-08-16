@@ -5,12 +5,15 @@ from pydantic import BaseModel, Field
 
 class ClassificationResult(BaseModel):
     waste_report_id: uuid.UUID | None = None
-    category: str
+    category: str | None = None
     detected_type: str | None = None
     classification_group: str | None = None
-    confidence: float = Field(ge=0, le=1)
+    confidence: float | None = Field(default=None, ge=0, le=1)
     requires_review: bool
     model_name: str | None = None
+    status: str = "pending"
+    source: str = "ai"
+    error_message: str | None = None
 
 
 class ClassificationCorrection(BaseModel):

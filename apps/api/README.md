@@ -47,3 +47,22 @@ HF_API_TOKEN=optional-space-token
 ```
 
 The adapter sends the uploaded image as the `file` multipart field and accepts the classifier response fields `classification`, `detected_type`, and `confidence`. It maps the engineer's labels (for example `Plastic`, `Glass`, and `Biological`) to EnviRescue categories and marks predictions below `AI_CONFIDENCE_THRESHOLD` for review.
+
+## Classification fallback and manual review
+
+Classification is deliberately non-blocking for waste reports. When an image is submitted with a `report_id`, the report is saved first and the API records the classifier result separately:
+
+- `accepted`: AI returned a confident result;
+- `review_required`: AI returned a low-confidence result;
+- `failed`: the classifier was unavailable or timed out. The report remains saved and the response includes a safe error message.
+
+In both review states, the client can complete classification manually:
+
+```http
+POST /api/v1/classifications/{report_id}/manual
+Content-Type: application/json
+
+{"category_id": "<active-category-uuid>"}
+```
+
+The manual endpoint validates that the category is active and belongs to the authenticated user’s report, then changes the classification to `accepted` with `source: "manual"`. This keeps reporting available during model outages and provides an auditable correction path for uncertain predictions.
