@@ -49,5 +49,31 @@ class Cache:
         except Exception:
             return None
 
+    def push(self, key: str, value: Any) -> bool:
+        if self._client is None:
+            return False
+        try:
+            self._client.rpush(key, json.dumps(value))
+            return True
+        except Exception:
+            return False
+
+    def pop(self, key: str) -> Any | None:
+        if self._client is None:
+            return None
+        try:
+            value = self._client.lpop(key)
+            return json.loads(value) if isinstance(value, str) else value
+        except Exception:
+            return None
+
+    def exists(self, key: str) -> bool:
+        if self._client is None:
+            return False
+        try:
+            return bool(self._client.exists(key))
+        except Exception:
+            return False
+
 
 cache = Cache()

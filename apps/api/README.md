@@ -30,16 +30,23 @@ uv run pytest tests/integration
 
 ## Hugging Face Spaces deployment
 
-The included `Dockerfile` runs database migrations and starts Uvicorn on port `7860`, which is the default Spaces port. Configure `DATABASE_URL`, `JWT_SECRET`, and the existing optional Redis, Cloudinary, and classifier variables as Space secrets. Do not copy `.env` into the image.
+The included `Dockerfile` runs database migrations and starts the API on port `7860`, which is the default Spaces port. Configure `DATABASE_URL`, `JWT_SECRET`, and the existing optional Redis, Cloudinary, and classifier variables as Space secrets. Do not copy `.env` into the image. Set `SERVICE=worker` in a separate worker Space or process to run the Redis classification worker instead of the HTTP API.
 
 ## Health endpoints
 
 - `GET /health/live` is a dependency-free liveness check for Hugging Face Spaces.
 - `GET /health/ready` verifies that PostgreSQL is reachable and returns `503` when the API is not ready to receive traffic.
+- `GET /health/ai` reports classifier configuration and circuit-breaker state without invoking inference.
+
+## Authentication lifecycle
+
+Login returns an access token and a refresh token. `POST /api/v1/auth/refresh` rotates the refresh token and revokes the previous token; reuse is rejected. Logout and `/auth/revoke` add token IDs to the Redis revocation set. Password reset and email-verification endpoints expose token contracts without sending email notifications yet.
 
 ## Request protection
 
 Login, registration, and image-classification endpoints use a process-local rate limiter by default. Configure `RATE_LIMIT_WINDOW_SECONDS` and `RATE_LIMIT_MAX_REQUESTS` as needed. `FRONTEND_URL` is always allowed by CORS; additional production origins can be supplied through `CORS_ORIGINS` as a JSON list. For multiple API replicas, move the limiter counter to Upstash Redis so limits are shared across instances.
+
+Responses also include baseline security headers for content sniffing, framing, referrer control, and browser permission restrictions.
 
 Copy `.env.example` to `.env` and configure the database before applying migrations. The classifier currently returns a low-confidence fallback until a trained model is selected and integrated.
 
@@ -83,6 +90,8 @@ Classification is deliberately non-blocking for waste reports. When an image is 
 - `failed`: the classifier was unavailable or timed out. The report remains saved and the response includes a safe error message.
 
 In both review states, the client can complete classification manually:
+
+Clients can poll `GET /api/v1/classifications/{report_id}` to retrieve the current classification state before displaying a result or offering manual review.
 
 ```http
 POST /api/v1/classifications/{report_id}/manual

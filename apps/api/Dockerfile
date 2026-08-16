@@ -15,4 +15,4 @@ COPY alembic.ini ./alembic.ini
 COPY scripts ./scripts
 
 EXPOSE 7860
-CMD ["sh", "-c", "uv run alembic upgrade head && uv run uvicorn app.main:app --host 0.0.0.0 --port 7860"]
+CMD ["sh", "-c", "uv run alembic upgrade head && uv run python scripts/start.py"]

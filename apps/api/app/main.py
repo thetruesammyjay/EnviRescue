@@ -9,11 +9,13 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 
+from app.ai.remote import _circuit
 from app.api.routes import api_router
 from app.core.cache import cache
 from app.core.config import settings
 from app.core.database import SessionLocal
 from app.core.observability import RequestLoggingMiddleware
+from app.core.security_headers import SecurityHeadersMiddleware
 
 
 @asynccontextmanager
@@ -83,6 +85,7 @@ class _RequestRateLimiter(BaseHTTPMiddleware):
 
 app.add_middleware(_RequestRateLimiter)
 app.add_middleware(RequestLoggingMiddleware)
+app.add_middleware(SecurityHeadersMiddleware)
 
 app.include_router(api_router, prefix=settings.api_v1_prefix)
 
@@ -112,3 +115,17 @@ async def readiness() -> dict[str, str]:
     except Exception as exc:
         raise HTTPException(status_code=503, detail="Database is not ready.") from exc
     return {"status": "ready", "service": "envirescue-api"}
+
+
+@app.get("/health/ai", tags=["system"])
+async def ai_health() -> dict[str, str | bool | None]:
+    """Report classifier configuration and circuit state without invoking the model."""
+    configured = settings.ai_provider == "fallback" or settings.ai_classifier_url is not None
+    circuit_open = not _circuit.allow_request() if settings.ai_provider == "remote" else False
+    return {
+        "status": "healthy" if configured and not circuit_open else "degraded",
+        "provider": settings.ai_provider,
+        "configured": configured,
+        "circuit_open": circuit_open,
+        "model": settings.ai_model_name,
+    }

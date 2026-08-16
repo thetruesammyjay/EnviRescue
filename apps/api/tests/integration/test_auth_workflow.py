@@ -48,3 +48,14 @@ async def test_register_login_and_current_user() -> None:
         )
         assert current_user.status_code == 200
         assert current_user.json()["email"] == email
+
+        rotated = await client.post(
+            "/api/v1/auth/refresh", json={"refresh_token": login.json()["refresh_token"]}
+        )
+        assert rotated.status_code == 200
+        assert rotated.json()["refresh_token"] != login.json()["refresh_token"]
+
+        reused = await client.post(
+            "/api/v1/auth/refresh", json={"refresh_token": login.json()["refresh_token"]}
+        )
+        assert reused.status_code == 401

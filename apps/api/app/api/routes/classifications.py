@@ -11,6 +11,7 @@ from app.models.category import WasteCategory
 from app.models.classification import Classification
 from app.models.waste_report import WasteReport
 from app.schemas.classification import ClassificationCorrection, ClassificationResult
+from app.services.classification_jobs import enqueue_classification, get_job
 from app.services.classification_service import classify_image
 from app.utils.image_validation import validate_image_bytes
 
@@ -27,6 +28,63 @@ async def _classification_for_report(
         classification = Classification(waste_report_id=report_id)
         session.add(classification)
     return classification
+
+
+@router.get("/{report_id}", response_model=ClassificationResult)
+async def classification_status(
+    report_id: uuid.UUID,
+    session: DatabaseSession,
+    user: CurrentUser,
+) -> ClassificationResult:
+    report = await session.scalar(
+        select(WasteReport).where(WasteReport.id == report_id, WasteReport.user_id == user.id)
+    )
+    if report is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Waste report not found.")
+    classification = await session.scalar(
+        select(Classification).where(Classification.waste_report_id == report_id)
+    )
+    if classification is None:
+        return ClassificationResult(
+            waste_report_id=report_id, requires_review=True, status="pending", source="ai"
+        )
+    return ClassificationResult(
+        waste_report_id=report_id,
+        category=classification.predicted_category,
+        confidence=float(classification.confidence)
+        if classification.confidence is not None
+        else None,
+        requires_review=classification.requires_review,
+        model_name=classification.model_name,
+        status=classification.classification_status,
+        source=classification.classification_source,
+        error_message=classification.error_message,
+    )
+
+
+@router.post("/{report_id}/jobs", status_code=status.HTTP_202_ACCEPTED)
+async def enqueue_classification_job(
+    report_id: uuid.UUID, session: DatabaseSession, user: CurrentUser
+) -> dict[str, object]:
+    report = await session.scalar(
+        select(WasteReport).where(WasteReport.id == report_id, WasteReport.user_id == user.id)
+    )
+    if report is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Waste report not found.")
+    job = enqueue_classification(report.id, report.image_url, user.id)
+    if job is None or job.get("user_id") != str(user.id):
+        raise HTTPException(status_code=503, detail="Classification queue is unavailable.")
+    return job
+
+
+@router.get("/jobs/{job_id}")
+async def classification_job_status(job_id: str, user: CurrentUser) -> dict[str, object]:
+    job = get_job(job_id)
+    if job is None or job.get("user_id") != str(user.id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Classification job not found."
+        )
+    return job
 
 
 @router.post("/image", response_model=ClassificationResult)
