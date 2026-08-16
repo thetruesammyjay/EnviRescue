@@ -19,6 +19,11 @@ uv run ruff format --check .
 uv run pytest
 ```
 
+## Health endpoints
+
+- `GET /health/live` is a dependency-free liveness check for Hugging Face Spaces.
+- `GET /health/ready` verifies that PostgreSQL is reachable and returns `503` when the API is not ready to receive traffic.
+
 Copy `.env.example` to `.env` and configure the database before applying migrations. The classifier currently returns a low-confidence fallback until a trained model is selected and integrated.
 
 ## Cloudinary image storage
