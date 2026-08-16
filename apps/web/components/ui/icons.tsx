@@ -283,3 +283,13 @@ export function IconSparkles(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function IconLayers(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" {...props}>
+      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+      <polyline points="2 17 12 22 22 17" />
+      <polyline points="2 12 12 17 22 12" />
+    </svg>
+  );
+}
