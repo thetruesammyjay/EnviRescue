@@ -19,6 +19,16 @@ class CollectionScheduleCreate(BaseModel):
     collection_date: datetime
 
 
+class CollectionZoneCreate(BaseModel):
+    name: str
+    region: str
+
+
+class CollectionScheduleUpdate(BaseModel):
+    collection_date: datetime | None = None
+    status: CollectionStatus | None = None
+
+
 class CollectionScheduleRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

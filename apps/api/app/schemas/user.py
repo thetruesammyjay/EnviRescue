@@ -26,3 +26,10 @@ class UserRead(BaseModel):
 class UserRoleUpdate(BaseModel):
     role: UserRole
     is_active: bool | None = None
+
+
+class UserPage(BaseModel):
+    items: list[UserRead]
+    page: int
+    page_size: int
+    total: int

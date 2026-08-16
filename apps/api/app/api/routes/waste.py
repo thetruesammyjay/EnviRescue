@@ -1,7 +1,7 @@
 import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, HTTPException, Query, status
+from fastapi import APIRouter, File, Form, HTTPException, Query, UploadFile, status
 from sqlalchemy import delete, select
 
 from app.api.dependencies import CurrentUser, DatabaseSession
@@ -9,6 +9,7 @@ from app.models.waste_report import WasteReport
 from app.schemas.common import Message
 from app.schemas.waste import WasteReportCreate, WasteReportPage, WasteReportRead, WasteReportUpdate
 from app.services.waste_service import create_report, list_reports
+from app.storage.images import image_storage
 from app.utils.pagination import pagination_offset
 
 router = APIRouter(prefix="/waste", tags=["waste reports"])
@@ -18,7 +19,49 @@ router = APIRouter(prefix="/waste", tags=["waste reports"])
 async def create(
     payload: WasteReportCreate, session: DatabaseSession, user: CurrentUser
 ) -> WasteReportRead:
-    return WasteReportRead.model_validate(await create_report(session, user.id, payload))
+    try:
+        report = await create_report(session, user.id, payload)
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+    return WasteReportRead.model_validate(report)
+
+
+@router.post("/with-image", response_model=WasteReportRead, status_code=status.HTTP_201_CREATED)
+async def create_with_image(
+    session: DatabaseSession,
+    user: CurrentUser,
+    category_id: Annotated[uuid.UUID, Form(...)],
+    quantity_kg: Annotated[float, Form(gt=0)],
+    location: Annotated[str, Form(...)],
+    image: Annotated[UploadFile, File(...)],
+    description: Annotated[str | None, Form()] = None,
+) -> WasteReportRead:
+    content = await image.read()
+    if len(content) > 5 * 1024 * 1024:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail="Image is too large."
+        )
+    try:
+        extension = (
+            image.filename.rsplit(".", 1)[-1] if image.filename and "." in image.filename else "jpg"
+        )
+        image_url = image_storage.save(content, extension)
+        report = await create_report(
+            session,
+            user.id,
+            WasteReportCreate(
+                category_id=category_id,
+                quantity_kg=quantity_kg,
+                location=location,
+                description=description,
+                image_url=image_url,
+            ),
+        )
+    except (ValueError, OSError) as exc:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)
+        ) from exc
+    return WasteReportRead.model_validate(report)
 
 
 @router.get("", response_model=WasteReportPage)

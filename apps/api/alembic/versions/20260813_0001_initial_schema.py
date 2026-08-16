@@ -12,8 +12,10 @@ down_revision: str | None = None
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
 
-user_role = sa.Enum("USER", "ADMIN", name="userrole")
-collection_status = sa.Enum("SCHEDULED", "COMPLETED", "CANCELLED", name="collectionstatus")
+user_role = postgresql.ENUM("USER", "ADMIN", name="userrole", create_type=False)
+collection_status = postgresql.ENUM(
+    "SCHEDULED", "COMPLETED", "CANCELLED", name="collectionstatus", create_type=False
+)
 
 
 def timestamp_columns() -> list[sa.Column]:

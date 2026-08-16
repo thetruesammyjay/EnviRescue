@@ -17,16 +17,25 @@ class Cache:
     def get_json(self, key: str) -> Any | None:
         if self._client is None:
             return None
-        value = self._client.get(key)
+        try:
+            value = self._client.get(key)
+        except Exception:
+            return None
         return json.loads(value) if isinstance(value, str) else value
 
     def set_json(self, key: str, value: Any, ttl_seconds: int) -> None:
         if self._client is not None:
-            self._client.set(key, json.dumps(value), ex=ttl_seconds)
+            try:
+                self._client.set(key, json.dumps(value), ex=ttl_seconds)
+            except Exception:
+                return
 
     def delete(self, key: str) -> None:
         if self._client is not None:
-            self._client.delete(key)
+            try:
+                self._client.delete(key)
+            except Exception:
+                return
 
 
 cache = Cache()
