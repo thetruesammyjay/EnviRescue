@@ -13,6 +13,7 @@ from app.api.routes import api_router
 from app.core.cache import cache
 from app.core.config import settings
 from app.core.database import SessionLocal
+from app.core.observability import RequestLoggingMiddleware
 
 
 @asynccontextmanager
@@ -81,6 +82,7 @@ class _RequestRateLimiter(BaseHTTPMiddleware):
 
 
 app.add_middleware(_RequestRateLimiter)
+app.add_middleware(RequestLoggingMiddleware)
 
 app.include_router(api_router, prefix=settings.api_v1_prefix)
 

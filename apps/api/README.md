@@ -19,6 +19,24 @@ uv run ruff format --check .
 uv run pytest
 ```
 
+Integration tests are isolated from the normal database configuration. Set a dedicated test PostgreSQL URL, run migrations against it, then execute the suite:
+
+```powershell
+$env:TEST_DATABASE_URL="postgresql://user:password@localhost:5432/envirescue_test"
+$env:DATABASE_URL=$env:TEST_DATABASE_URL
+uv run alembic upgrade head
+uv run pytest tests/integration
+```
+
+Integration tests are isolated from the normal database configuration. Set a dedicated test PostgreSQL URL, run migrations against it, then execute the suite:
+
+```powershell
+$env:TEST_DATABASE_URL="postgresql://user:password@localhost:5432/envirescue_test"
+$env:DATABASE_URL=$env:TEST_DATABASE_URL
+uv run alembic upgrade head
+uv run pytest tests/integration
+```
+
 ## Health endpoints
 
 - `GET /health/live` is a dependency-free liveness check for Hugging Face Spaces.

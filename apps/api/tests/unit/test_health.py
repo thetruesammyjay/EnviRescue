@@ -8,3 +8,4 @@ def test_liveness_does_not_require_external_services() -> None:
 
     assert response.status_code == 200
     assert response.json()["status"] == "alive"
+    assert response.headers.get("x-request-id")
