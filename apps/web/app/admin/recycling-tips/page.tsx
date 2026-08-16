@@ -15,7 +15,7 @@ export default function AdminRecyclingTipsPage() {
         <div>
           <h2 className="text-xl font-bold text-slate-900">Recycling Rules & Guidelines Manager</h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Edit step-by-step preparation instructions and sorting rules shown to campus citizens.
+            Edit step-by-step preparation instructions and sorting rules shown to users.
           </p>
         </div>
         <Button size="sm" variant="yellow">

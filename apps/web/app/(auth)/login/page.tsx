@@ -6,7 +6,7 @@ export default function LoginPage() {
     <div className="space-y-5">
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Sign in to EnviRescue</h1>
-        <p className="text-xs text-slate-500 mt-1">Access your campus waste reports and eco points.</p>
+        <p className="text-xs text-slate-500 mt-1">Access your waste reports and eco points.</p>
       </div>
 
       <AuthForm mode="login" />

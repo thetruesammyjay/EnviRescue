@@ -56,7 +56,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             onClick={() => handleDemoLogin("citizen")}
           >
             <IconUser className="h-4 w-4 text-emerald-700" />
-            <span>Campus Citizen</span>
+            <span>Standard User</span>
           </Button>
           <Button
             className="w-full text-xs"
@@ -101,7 +101,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           </label>
           <input
             className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:bg-white focus:outline-none"
-            placeholder="student@campus.edu"
+            placeholder="user@example.com"
             required
             type="email"
             value={email}

@@ -38,7 +38,7 @@ export default function WasteReportsPage() {
           </Button>
         </Link>
       }
-      description="View and manage all verified waste logs across campus collection stations."
+      description="View and manage all verified waste logs across collection stations."
       title="Waste Reports"
     >
       <div className="space-y-6">

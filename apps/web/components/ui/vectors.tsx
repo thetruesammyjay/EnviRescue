@@ -1,6 +1,6 @@
 import type { SVGProps } from "react";
 
-export function VectorHeroCampus(props: SVGProps<SVGSVGElement>) {
+export function VectorHeroFacility(props: SVGProps<SVGSVGElement>) {
   return (
     <svg fill="none" height="180" viewBox="0 0 320 180" width="320" xmlns="http://www.w3.org/2000/svg" {...props}>
       <rect fill="#bbf7d0" height="160" rx="28" width="300" x="10" y="10" />

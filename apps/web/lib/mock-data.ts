@@ -36,7 +36,7 @@ export const MOCK_CATEGORIES: CategoryItem[] = [
     borderColor: "border-emerald-200",
     textColor: "text-emerald-900",
     iconKey: "paper",
-    description: "Clean flattened shipping boxes, books, and office paper.",
+    description: "Clean flattened shipping boxes, packaging, and office paper.",
     funFact: "Recycling 1 ton of paper saves 17 mature trees.",
   },
   {
@@ -101,8 +101,8 @@ export const MOCK_CATEGORIES: CategoryItem[] = [
     borderColor: "border-pink-200",
     textColor: "text-pink-900",
     iconKey: "battery",
-    description: "Lithium cells, dry cells, paints, and laboratory chemicals.",
-    funFact: "Special safe handling protects campus water supplies.",
+    description: "Lithium cells, dry cells, paints, and specialty chemicals.",
+    funFact: "Special safe handling protects local water tables and the ecosystem.",
   },
   {
     id: "cat-8",
@@ -157,7 +157,7 @@ export const MOCK_RECYCLING_TIPS: RecyclingTip[] = [
       "Flatten boxes completely flat.",
       "Keep dry and away from moisture.",
     ],
-    dos: ["Cardboard shipping boxes", "Clean paper bags", "Magazines and notebooks"],
+    dos: ["Cardboard shipping boxes", "Clean paper bags", "Magazines and documents"],
     donts: ["Greasy pizza boxes with food residue", "Wax-coated coffee cups", "Used paper towels"],
   },
   {
@@ -179,24 +179,24 @@ export const MOCK_RECYCLING_TIPS: RecyclingTip[] = [
     category: "Metal & Cans",
     iconKey: "metal",
     title: "Aluminum Beverage Cans & Food Tins",
-    summary: "Infinitely recyclable. Rinse clean and drop in yellow recycling bin.",
+    summary: "Infinitely recyclable. Rinse clean and drop in metal recycling bin.",
     steps: [
       "Rinse food tins clean.",
       "Push clean lid down inside the can.",
       "Aluminum beverage cans do not need crushing.",
     ],
-    dos: ["Soda and seltzer cans", "Soup and tuna tins", "Clean aluminum baking trays"],
+    dos: ["Soda and seltzer cans", "Soup and food tins", "Clean aluminum baking trays"],
     donts: ["Paint cans with wet chemical residue", "Pressurized aerosol cans"],
   },
   {
     id: "tip-5",
     category: "Organic & Compost",
     iconKey: "organic",
-    title: "Campus Food Scraps & Plant Matter",
-    summary: "Turn food scraps into nutrient-rich compost for campus gardens.",
+    title: "Organic Food Scraps & Plant Matter",
+    summary: "Turn food scraps into nutrient-rich compost for community gardens and landscaping.",
     steps: [
       "Collect food scraps in a clean container.",
-      "Drop off at designated green campus organics bin.",
+      "Drop off at designated organic compost sorting bins.",
     ],
     dos: ["Fruit and vegetable peels", "Coffee grounds and paper filters", "Eggshells and tea leaves"],
     donts: ["Meat bones and dairy in standard bins", "Plastic stickers on fruit skins"],
@@ -209,9 +209,9 @@ export const MOCK_RECYCLING_TIPS: RecyclingTip[] = [
     summary: "Never throw batteries in standard bins. Drop off at designated collection boxes.",
     steps: [
       "Tape battery terminals with clear tape to prevent short circuits.",
-      "Place in special red battery drop box located at campus hub.",
+      "Place in special designated battery drop box at facility collection centers.",
     ],
-    dos: ["AA, AAA, 9V, and button cell batteries", "Rechargeable Li-ion laptop batteries"],
+    dos: ["AA, AAA, 9V, and button cell batteries", "Rechargeable Li-ion device batteries"],
     donts: ["Never throw in standard trash", "Never crush or puncture"],
   },
 ];
@@ -219,7 +219,7 @@ export const MOCK_RECYCLING_TIPS: RecyclingTip[] = [
 export interface CollectionSchedule {
   id: string;
   zone: string;
-  campusArea: string;
+  assignedArea: string;
   dayOfWeek: string;
   nextDate: string;
   timeWindow: string;
@@ -230,8 +230,8 @@ export interface CollectionSchedule {
 export const MOCK_COLLECTIONS: CollectionSchedule[] = [
   {
     id: "col-1",
-    zone: "Zone A - North Campus & Dorms",
-    campusArea: "Hostels A-D & Engineering Complex",
+    zone: "Zone A - North Sector & Residential",
+    assignedArea: "Residential Blocks A-D & Facility Complex",
     dayOfWeek: "Monday & Thursday",
     nextDate: "Tomorrow, 8:30 AM",
     timeWindow: "8:30 AM - 11:30 AM",
@@ -240,8 +240,8 @@ export const MOCK_COLLECTIONS: CollectionSchedule[] = [
   },
   {
     id: "col-2",
-    zone: "Zone B - Student Center & Dining",
-    campusArea: "Food Court, Cafeterias & Student Hub",
+    zone: "Zone B - Central Plaza & Commercial",
+    assignedArea: "Food Court, Dining Hub & Commercial Center",
     dayOfWeek: "Daily (Mon-Sat)",
     nextDate: "Today, 2:00 PM",
     timeWindow: "2:00 PM - 4:00 PM",
@@ -250,8 +250,8 @@ export const MOCK_COLLECTIONS: CollectionSchedule[] = [
   },
   {
     id: "col-3",
-    zone: "Zone C - Science & Labs",
-    campusArea: "Chemistry, Biology & Tech Parks",
+    zone: "Zone C - Industrial & Research Labs",
+    assignedArea: "Technology Park, Labs & Engineering Units",
     dayOfWeek: "Wednesday & Friday",
     nextDate: "Wednesday, 10:00 AM",
     timeWindow: "10:00 AM - 1:00 PM",
@@ -260,8 +260,8 @@ export const MOCK_COLLECTIONS: CollectionSchedule[] = [
   },
   {
     id: "col-4",
-    zone: "Zone D - Administration & Library",
-    campusArea: "Senate Building, Library & Lecture Theatres",
+    zone: "Zone D - Administration & Corporate",
+    assignedArea: "Headquarters, Main Offices & Archive Suites",
     dayOfWeek: "Tuesday & Friday",
     nextDate: "Tuesday, 9:00 AM",
     timeWindow: "9:00 AM - 12:00 PM",
@@ -324,7 +324,7 @@ export const SAMPLE_CLASSIFY_ITEMS: SampleClassifyItem[] = [
     confidence: 0.945,
     recyclable: true,
     detectedType: "Food & Organic Matter",
-    instructions: "Place in green organics bin for campus gardens.",
+    instructions: "Place in green organics bin for composting streams.",
     imageUrl: "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=500&auto=format&fit=crop&q=80",
   },
   {
@@ -335,7 +335,7 @@ export const SAMPLE_CLASSIFY_ITEMS: SampleClassifyItem[] = [
     confidence: 0.978,
     recyclable: false,
     detectedType: "Alkaline / Lithium Battery",
-    instructions: "Tape terminals. Do NOT place in normal bins. Drop in campus e-waste hub.",
+    instructions: "Tape terminals. Do NOT place in normal bins. Drop at dedicated e-waste collection point.",
     imageUrl: "https://images.unsplash.com/photo-1619725002198-6a689b72f41d?w=500&auto=format&fit=crop&q=80",
   },
   {
@@ -370,8 +370,8 @@ export const INITIAL_MOCK_REPORTS: WasteReportItem[] = [
     category: "Plastic",
     iconKey: "plastic",
     quantityKg: 3.4,
-    location: "Engineering Hall B, 2nd Floor",
-    description: "Sorted plastic drink bottles and clean yogurt tubs.",
+    location: "Facility Tower B, 2nd Floor",
+    description: "Sorted plastic drink bottles and clean food containers.",
     date: "Today, 11:20 AM",
     recyclable: true,
     status: "verified",
@@ -382,8 +382,8 @@ export const INITIAL_MOCK_REPORTS: WasteReportItem[] = [
     category: "Paper & Cardboard",
     iconKey: "paper",
     quantityKg: 8.5,
-    location: "Campus Central Library, Delivery Dock",
-    description: "Flattened textbook shipping cartons and printer paper boxes.",
+    location: "Central Operations, Delivery Dock",
+    description: "Flattened shipping cartons and printer paper boxes.",
     date: "Yesterday, 3:45 PM",
     recyclable: true,
     status: "verified",
@@ -394,8 +394,8 @@ export const INITIAL_MOCK_REPORTS: WasteReportItem[] = [
     category: "Metal & Cans",
     iconKey: "metal",
     quantityKg: 1.8,
-    location: "Hostel D Common Room",
-    description: "Rinsed aluminum soda cans after weekend study session.",
+    location: "Building D Break Room",
+    description: "Rinsed aluminum beverage cans.",
     date: "Aug 14, 2026",
     recyclable: true,
     status: "verified",
@@ -406,7 +406,7 @@ export const INITIAL_MOCK_REPORTS: WasteReportItem[] = [
     category: "Organic & Compost",
     iconKey: "organic",
     quantityKg: 5.2,
-    location: "Student Center Cafeteria Station",
+    location: "Main Cafeteria & Food Prep Station",
     description: "Coffee grounds and fruit prep scraps.",
     date: "Aug 13, 2026",
     recyclable: true,
@@ -418,7 +418,7 @@ export const INITIAL_MOCK_REPORTS: WasteReportItem[] = [
     category: "Electronic Waste",
     iconKey: "electronic",
     quantityKg: 2.1,
-    location: "IT Helpdesk Hub",
+    location: "IT Operations & Hardware Hub",
     description: "Defective USB cables, broken keyboards, and retired adapters.",
     date: "Aug 12, 2026",
     recyclable: false,

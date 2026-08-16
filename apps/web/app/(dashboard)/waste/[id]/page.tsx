@@ -61,7 +61,7 @@ export default async function WasteReportDetailPage({
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1">
                 <IconMapPin className="h-4 w-4 text-slate-400" />
-                <span>Campus Location</span>
+                <span>Recorded Location</span>
               </p>
               <p className="text-sm font-bold text-slate-900 mt-1">{report.location}</p>
             </div>
@@ -78,7 +78,7 @@ export default async function WasteReportDetailPage({
             <IconCheckCircle className="h-6 w-6 text-emerald-700 shrink-0" />
             <div>
               <p className="text-xs font-bold text-emerald-950">Status: Verified for Recycling Diversion</p>
-              <p className="text-xs text-emerald-800">Assigned to campus green sorting stream.</p>
+              <p className="text-xs text-emerald-800">Assigned to verified recycling diversion stream.</p>
             </div>
           </div>
         </div>

@@ -28,8 +28,8 @@ const ALL_REVIEWS: FullReviewItem[] = [
     iconKey: "plastic",
     imageLabel: "Opaque detergent bottle with plastic handle",
     confidence: 0.68,
-    reporter: "student@campus.edu",
-    zone: "Zone A - North Campus & Dorms",
+    reporter: "user@envirescue.org",
+    zone: "Zone A - North Sector & Residential",
     date: "10 mins ago",
   },
   {
@@ -38,8 +38,8 @@ const ALL_REVIEWS: FullReviewItem[] = [
     iconKey: "metal",
     imageLabel: "Crushed metallic canister",
     confidence: 0.71,
-    reporter: "labtech@campus.edu",
-    zone: "Zone C - Science & Labs",
+    reporter: "ops@envirescue.org",
+    zone: "Zone C - Industrial & Research Labs",
     date: "25 mins ago",
   },
   {
@@ -48,8 +48,8 @@ const ALL_REVIEWS: FullReviewItem[] = [
     iconKey: "battery",
     imageLabel: "Swollen power pack cell",
     confidence: 0.64,
-    reporter: "itstaff@campus.edu",
-    zone: "Zone C - Science & Labs",
+    reporter: "support@envirescue.org",
+    zone: "Zone C - Industrial & Research Labs",
     date: "1 hour ago",
   },
   {
@@ -58,8 +58,8 @@ const ALL_REVIEWS: FullReviewItem[] = [
     iconKey: "paper",
     imageLabel: "Waxed food packaging carton",
     confidence: 0.74,
-    reporter: "dining@campus.edu",
-    zone: "Zone B - Student Center & Dining",
+    reporter: "dining@envirescue.org",
+    zone: "Zone B - Central Plaza & Commercial",
     date: "2 hours ago",
   },
 ];

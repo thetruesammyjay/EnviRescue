@@ -21,7 +21,7 @@ export function WasteReportForm() {
 
   const [category, setCategory] = useState(initialCategory);
   const [quantity, setQuantity] = useState("2.5");
-  const [location, setLocation] = useState("Engineering Hall B, Floor 2");
+  const [location, setLocation] = useState("Facility Tower B, Floor 2");
   const [description, setDescription] = useState(initialDescription);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -110,12 +110,12 @@ export function WasteReportForm() {
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1">
             <IconMapPin className="h-4 w-4 text-slate-400" />
-            <span>3. Campus Location / Bin Station</span>
+            <span>3. Location / Collection Point</span>
           </label>
           <input
             className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 focus:border-emerald-500 focus:bg-white focus:outline-none"
             name="location"
-            placeholder="e.g. Science Library, North Entrance"
+            placeholder="e.g. Building B, Main Entrance"
             required
             type="text"
             value={location}
@@ -132,7 +132,7 @@ export function WasteReportForm() {
         <textarea
           className="w-full min-h-[90px] rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-emerald-500 focus:bg-white focus:outline-none"
           name="description"
-          placeholder="e.g. Clean sorted plastic bottles from engineering study lounge"
+          placeholder="e.g. Clean sorted plastic bottles from break room"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />

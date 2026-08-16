@@ -13,10 +13,10 @@ const USER_KEY = "envirescue_user_session";
 export const DEMO_USERS: Record<string, CurrentUser> = {
   citizen: {
     id: "usr-demo-01",
-    email: "shalom@campus.edu",
+    email: "shalom@envirescue.org",
     fullName: "Shalom EcoChampion",
     role: "user",
-    zone: "Zone A - North Campus & Dorms",
+    zone: "Zone A - North Sector & Residential",
     ecoPoints: 480,
   },
   admin: {
@@ -24,7 +24,7 @@ export const DEMO_USERS: Record<string, CurrentUser> = {
     email: "admin@envirescue.org",
     fullName: "Eco Supervisor",
     role: "admin",
-    zone: "All Campus Zones",
+    zone: "All Operations Zones",
     ecoPoints: 1250,
   },
 };

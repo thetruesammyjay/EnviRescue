@@ -194,7 +194,7 @@ export default function RecyclingPage() {
   return (
     <SectionPage
       description="Browse explainable recycling rules, material preparation steps, and disposal guidelines."
-      title="Campus Recycling Rules"
+      title="Recycling & Disposal Guidelines"
     >
       <Suspense fallback={<div className="p-8 text-center text-xs font-light text-slate-400">Loading recycling guidelines...</div>}>
         <RecyclingContent />

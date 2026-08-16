@@ -14,7 +14,7 @@ export default function AdminCollectionsPage() {
         <div>
           <h2 className="text-xl font-bold text-slate-900">Collection Schedules & Fleet Dispatch</h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Configure campus collection frequency and driver routing.
+            Configure collection frequency, zone coverage, and driver routing.
           </p>
         </div>
         <Button size="sm" variant="yellow">
@@ -38,7 +38,7 @@ export default function AdminCollectionsPage() {
               </div>
               <p className="text-xs text-slate-500 flex items-center gap-1">
                 <IconMapPin className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                <span>{item.campusArea}</span>
+                <span>{item.assignedArea}</span>
               </p>
               <p className="text-xs text-slate-600">
                 <span className="font-semibold">Next Pickup:</span> {item.nextDate} ({item.timeWindow})

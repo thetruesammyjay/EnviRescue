@@ -25,7 +25,7 @@ export default function ReportsPage() {
           </Button>
         </div>
       }
-      description="Summarize campus waste generation, recycling diversion metrics, and carbon emissions saved."
+      description="Summarize waste generation, recycling diversion metrics, and carbon emissions saved."
       title="Environmental Impact Analytics"
     >
       <div className="space-y-6">
@@ -67,7 +67,7 @@ export default function ReportsPage() {
         {/* Impact Summary Cards */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard
-            helper="All active campus streams"
+            helper="All active waste streams"
             icon={<IconScale className="h-7 w-7 text-amber-700" />}
             label="Total Waste Diverted"
             trend="+18% vs baseline"
@@ -90,7 +90,7 @@ export default function ReportsPage() {
             variant="blue"
           />
           <MetricCard
-            helper="142 active campus contributors"
+            helper="142 active contributors"
             icon={<IconChart className="h-7 w-7 text-orange-700" />}
             label="Total Log Events"
             value="142"
@@ -100,7 +100,7 @@ export default function ReportsPage() {
 
         {/* Detailed Material Breakdown */}
         <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 space-y-4">
-          <h2 className="text-lg font-bold text-slate-900">Campus Material Breakdown</h2>
+          <h2 className="text-lg font-bold text-slate-900">Material Breakdown</h2>
           <p className="text-xs text-slate-500">Distribution of waste fractions collected over the selected period</p>
           <CategoryChart />
         </div>

@@ -110,7 +110,7 @@ export default function HomePage() {
                 Scan & identify waste in seconds
               </h2>
               <p className="text-xs sm:text-sm font-light text-slate-600 leading-relaxed">
-                Take a photo or upload an image to detect recyclable materials, correct sorting bin, and campus disposal instructions.
+                Take a photo or upload an image to detect recyclable materials, correct sorting bin, and proper disposal instructions.
               </p>
               <div className="pt-1">
                 <Link href="/classify">

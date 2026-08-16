@@ -18,7 +18,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const adminNav = [
     { href: "/admin/dashboard", label: "Admin Overview", icon: <IconChart className="h-4 w-4" /> },
     { href: "/admin/classifications", label: "AI Review Queue", icon: <IconScan className="h-4 w-4" /> },
-    { href: "/admin/users", label: "Campus Users", icon: <IconUser className="h-4 w-4" /> },
+    { href: "/admin/users", label: "Users & Roles", icon: <IconUser className="h-4 w-4" /> },
   ];
 
   return (

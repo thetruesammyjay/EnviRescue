@@ -31,7 +31,7 @@ export default function SettingsPage() {
 
   return (
     <SectionPage
-      description="Manage your profile settings and default campus collection zone."
+      description="Manage your profile settings and default collection zone."
       title="User Settings"
     >
       <form
@@ -73,17 +73,17 @@ export default function SettingsPage() {
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
             <IconMapPin className="h-4 w-4 text-slate-400" />
-            <span>Default Campus Collection Zone</span>
+            <span>Default Collection Zone</span>
           </label>
           <select
             className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-900 focus:border-emerald-500 focus:bg-white focus:outline-none"
             value={zone}
             onChange={(e) => setZone(e.target.value)}
           >
-            <option value="Zone A - North Campus & Dorms">Zone A - North Campus & Dorms</option>
-            <option value="Zone B - Student Center & Dining">Zone B - Student Center & Dining</option>
-            <option value="Zone C - Science & Labs">Zone C - Science & Labs</option>
-            <option value="Zone D - Administration & Library">Zone D - Administration & Library</option>
+            <option value="Zone A - North Sector & Residential">Zone A - North Sector & Residential</option>
+            <option value="Zone B - Central Plaza & Commercial">Zone B - Central Plaza & Commercial</option>
+            <option value="Zone C - Industrial & Research Labs">Zone C - Industrial & Research Labs</option>
+            <option value="Zone D - Administration & Corporate">Zone D - Administration & Corporate</option>
           </select>
         </div>
 

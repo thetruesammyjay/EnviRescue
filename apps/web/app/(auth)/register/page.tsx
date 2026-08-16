@@ -6,7 +6,7 @@ export default function RegisterPage() {
     <div className="space-y-5">
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Create EnviRescue Account</h1>
-        <p className="text-xs text-slate-500 mt-1">Join your campus community in tracking and sorting waste.</p>
+        <p className="text-xs text-slate-500 mt-1">Join in tracking and sorting waste for positive environmental impact.</p>
       </div>
 
       <AuthForm mode="register" />

@@ -32,7 +32,7 @@ const INITIAL_REVIEWS: ReviewItem[] = [
     iconKey: "plastic",
     imageLabel: "Unclear container with label",
     confidence: 0.68,
-    reporter: "student@campus.edu",
+    reporter: "user@envirescue.org",
     date: "10 mins ago",
   },
   {
@@ -41,7 +41,7 @@ const INITIAL_REVIEWS: ReviewItem[] = [
     iconKey: "metal",
     imageLabel: "Crushed metallic canister",
     confidence: 0.71,
-    reporter: "labtech@campus.edu",
+    reporter: "ops@envirescue.org",
     date: "25 mins ago",
   },
   {
@@ -50,7 +50,7 @@ const INITIAL_REVIEWS: ReviewItem[] = [
     iconKey: "battery",
     imageLabel: "Swollen power pack cell",
     confidence: 0.64,
-    reporter: "itstaff@campus.edu",
+    reporter: "support@envirescue.org",
     date: "1 hour ago",
   },
 ];
@@ -83,14 +83,14 @@ export default function AdminDashboardPage() {
         <MetricCard
           helper="Across 4 active zones"
           icon={<IconUser className="h-7 w-7 text-sky-700" />}
-          label="Active Campus Citizens"
+          label="Active Platform Users"
           value="184"
           variant="blue"
         />
         <MetricCard
           helper="Total verified diversion"
           icon={<IconScale className="h-7 w-7 text-orange-700" />}
-          label="Campus Diversion Total"
+          label="Total Diverted Waste"
           value="1,420 kg"
           variant="peach"
         />

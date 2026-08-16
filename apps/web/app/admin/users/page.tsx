@@ -4,7 +4,7 @@ import { useState } from "react";
 import { IconUser, IconShield, IconMapPin, IconLeaf } from "@/components/ui/icons";
 import { Button } from "@envirescue/ui";
 
-interface CampusUserItem {
+interface PlatformUserItem {
   id: string;
   name: string;
   email: string;
@@ -14,13 +14,13 @@ interface CampusUserItem {
   reportsCount: number;
 }
 
-const INITIAL_USERS: CampusUserItem[] = [
+const INITIAL_USERS: PlatformUserItem[] = [
   {
     id: "u-1",
     name: "Shalom EcoChampion",
-    email: "shalom@campus.edu",
+    email: "shalom@envirescue.org",
     role: "user",
-    zone: "Zone A - North Campus & Dorms",
+    zone: "Zone A - North Sector & Residential",
     ecoPoints: 480,
     reportsCount: 14,
   },
@@ -29,25 +29,25 @@ const INITIAL_USERS: CampusUserItem[] = [
     name: "Dr. Evelyn Green",
     email: "admin@envirescue.org",
     role: "admin",
-    zone: "All Campus Zones",
+    zone: "All Operations Zones",
     ecoPoints: 1250,
     reportsCount: 42,
   },
   {
     id: "u-3",
     name: "David Chen",
-    email: "dchen@campus.edu",
+    email: "dchen@envirescue.org",
     role: "user",
-    zone: "Zone C - Science & Labs",
+    zone: "Zone C - Industrial & Research Labs",
     ecoPoints: 310,
     reportsCount: 8,
   },
   {
     id: "u-4",
     name: "Amina Yusuf",
-    email: "amina.y@campus.edu",
+    email: "amina.y@envirescue.org",
     role: "user",
-    zone: "Zone B - Student Center & Dining",
+    zone: "Zone B - Central Plaza & Commercial",
     ecoPoints: 620,
     reportsCount: 22,
   },
@@ -60,7 +60,7 @@ export default function AdminUsersPage() {
     <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Campus Citizen Directory</h2>
+          <h2 className="text-xl font-bold text-slate-900">User & Contributor Directory</h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Registered contributors, assigned collection zones, and eco points tracking.
           </p>

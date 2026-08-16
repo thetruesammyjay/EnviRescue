@@ -14,8 +14,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             <span className="text-xl font-bold tracking-tight text-slate-900">
               Envi<span className="text-emerald-600">Rescue</span>
             </span>
-            <span className="text-[10px] font-semibold tracking-wider text-amber-600 uppercase mt-0.5">
-              Campus Waste Network
+            <span className="text-[10px] font-semibold tracking-wider text-emerald-600 uppercase mt-0.5">
+              Smart Waste Platform
             </span>
           </div>
         </Link>

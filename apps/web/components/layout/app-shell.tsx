@@ -72,10 +72,10 @@ export function AppShell({ children }: { children: ReactNode }) {
               </span>
             </Link>
 
-            {/* Campus location tag */}
+            {/* Location tag */}
             <div className="hidden sm:flex items-center gap-1 text-[11px] font-light text-slate-500 bg-slate-50 border border-slate-200/70 px-2.5 py-1 rounded-full">
               <IconMapPin className="h-3 w-3 text-emerald-600" />
-              <span>Campus: <span className="font-medium text-slate-700">Zone A - North</span></span>
+              <span>Location: <span className="font-medium text-slate-700">Zone A - North</span></span>
             </div>
           </div>
 

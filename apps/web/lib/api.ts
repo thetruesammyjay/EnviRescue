@@ -90,7 +90,7 @@ export async function apiLogin(email: string, password: string) {
     email: data.user.email,
     fullName: data.user.full_name,
     role: data.user.role,
-    zone: "Zone A - North Campus & Dorms",
+    zone: "Zone A - North Sector & Residential",
     ecoPoints: 480,
   };
   setCurrentUser(user);
@@ -209,7 +209,7 @@ export async function apiGetWasteReports(page = 1, pageSize = 20): Promise<{ ite
       category: r.category ?? r.category_id ?? "General Waste",
       iconKey: (r.icon_key ?? r.iconKey ?? "plastic") as WasteReportItem["iconKey"],
       quantityKg: Number(r.quantity_kg ?? r.quantityKg ?? 1),
-      location: r.location ?? "Campus Station",
+      location: r.location ?? "Main Collection Point",
       description: r.description ?? "Waste report",
       date: r.created_at ? new Date(r.created_at).toLocaleDateString() : (r.date ?? "Today"),
       recyclable: Boolean(r.recyclable ?? true),

@@ -80,7 +80,7 @@ export default function CollectionsPage() {
                     <h3 className="text-base font-semibold text-slate-900">{item.zone}</h3>
                     <p className="text-xs font-light text-slate-500 mt-0.5 flex items-center gap-1">
                       <IconMapPin className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                      <span>{item.campusArea}</span>
+                      <span>{item.assignedArea}</span>
                     </p>
                   </div>
                   <span className="text-xs font-medium text-slate-600">
