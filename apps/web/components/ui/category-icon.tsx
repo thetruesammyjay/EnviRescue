@@ -3,7 +3,7 @@ import { IconRecycle } from "./icons";
 const VECTOR_MAP: Record<string, string> = {
   plastic: "/vectors/plastic.png",
   paper: "/vectors/paper.png",
-  glass: "/vectors/glassa.png",
+  glass: "/vectors/glass.png",
   metal: "/vectors/metal.png",
   organic: "/vectors/organic.png",
   electronic: "/vectors/electronics.png",

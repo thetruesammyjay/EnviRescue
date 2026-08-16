@@ -22,8 +22,8 @@ export default function HomePage() {
       <div className="space-y-8">
 
         {/* ── Hero ── */}
-        <section className="rounded-3xl bg-[#e0f8ee] border border-emerald-200 overflow-hidden flex flex-col-reverse sm:flex-row items-center justify-between p-5 sm:p-7 gap-6">
-          <div className="flex-1 flex flex-col justify-center space-y-3 w-full">
+        <section className="rounded-3xl bg-[#e0f8ee] border border-emerald-200 overflow-hidden flex flex-col sm:flex-row items-center justify-between p-5 sm:p-7 gap-5 sm:gap-6">
+          <div className="flex-1 flex flex-col justify-center space-y-2.5 w-full">
             <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-700">
               AI-Powered Waste Management
             </p>
@@ -47,11 +47,11 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Hero image — fully contained and nicely rounded on mobile & desktop */}
-          <div className="w-full sm:w-64 md:w-80 h-44 sm:h-52 rounded-2xl overflow-hidden shadow-xs relative shrink-0 border border-emerald-300/40 bg-white">
+          {/* Hero image — integrated cleanly without awkward double container */}
+          <div className="w-full sm:w-64 md:w-80 h-36 sm:h-48 rounded-2xl overflow-hidden relative shrink-0">
             <img
               alt="Waste sorting"
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center rounded-2xl"
               src="/hero.jpg"
             />
           </div>
@@ -230,7 +230,7 @@ export default function HomePage() {
 const VECTOR_MAP: Record<string, string> = {
   plastic: "/vectors/plastic.png",
   paper: "/vectors/paper.png",
-  glass: "/vectors/glassa.png",
+  glass: "/vectors/glass.png",
   metal: "/vectors/metal.png",
   organic: "/vectors/organic.png",
   electronic: "/vectors/electronics.png",
