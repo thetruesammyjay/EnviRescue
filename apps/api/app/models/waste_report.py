@@ -11,7 +11,10 @@ from app.models.mixins import TimestampMixin, UUIDPrimaryKeyMixin
 
 class WasteReport(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     __tablename__ = "waste_reports"
-    __table_args__ = (Index("ix_waste_reports_user_created", "user_id", "created_at"),)
+    __table_args__ = (
+        Index("ix_waste_reports_user_created", "user_id", "created_at"),
+        Index("ix_waste_reports_user_category_created", "user_id", "category_id", "created_at"),
+    )
 
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), index=True

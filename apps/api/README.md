@@ -28,14 +28,9 @@ uv run alembic upgrade head
 uv run pytest tests/integration
 ```
 
-Integration tests are isolated from the normal database configuration. Set a dedicated test PostgreSQL URL, run migrations against it, then execute the suite:
+## Hugging Face Spaces deployment
 
-```powershell
-$env:TEST_DATABASE_URL="postgresql://user:password@localhost:5432/envirescue_test"
-$env:DATABASE_URL=$env:TEST_DATABASE_URL
-uv run alembic upgrade head
-uv run pytest tests/integration
-```
+The included `Dockerfile` runs database migrations and starts Uvicorn on port `7860`, which is the default Spaces port. Configure `DATABASE_URL`, `JWT_SECRET`, and the existing optional Redis, Cloudinary, and classifier variables as Space secrets. Do not copy `.env` into the image.
 
 ## Health endpoints
 

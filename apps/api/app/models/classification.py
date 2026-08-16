@@ -1,7 +1,7 @@
 import uuid
 from decimal import Decimal
 
-from sqlalchemy import Boolean, ForeignKey, Numeric, String
+from sqlalchemy import Boolean, ForeignKey, Index, Numeric, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -11,6 +11,7 @@ from app.models.mixins import TimestampMixin, UUIDPrimaryKeyMixin
 
 class Classification(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     __tablename__ = "classifications"
+    __table_args__ = (Index("ix_classifications_review_queue", "requires_review", "created_at"),)
 
     waste_report_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("waste_reports.id", ondelete="CASCADE"), unique=True

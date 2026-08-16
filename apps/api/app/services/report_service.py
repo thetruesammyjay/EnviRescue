@@ -1,7 +1,7 @@
 import uuid
 from datetime import UTC, date, datetime, time
 
-from sqlalchemy import select
+from sqlalchemy import case, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.category import WasteCategory
@@ -21,33 +21,45 @@ async def build_summary(
     start_date: date | None = None,
     end_date: date | None = None,
 ) -> DashboardSummary:
-    query = select(WasteReport, WasteCategory).join(
-        WasteCategory, WasteReport.category_id == WasteCategory.id
-    )
+    filters = []
     if user_id is not None:
-        query = query.where(WasteReport.user_id == user_id)
+        filters.append(WasteReport.user_id == user_id)
     start = _boundary(start_date)
     end = _boundary(end_date, end=True)
     if start is not None:
-        query = query.where(WasteReport.created_at >= start)
+        filters.append(WasteReport.created_at >= start)
     if end is not None:
-        query = query.where(WasteReport.created_at <= end)
+        filters.append(WasteReport.created_at <= end)
 
-    rows = (await session.execute(query)).all()
-    total = sum(float(report.quantity_kg) for report, _ in rows)
-    recyclable = sum(float(report.quantity_kg) for report, category in rows if category.recyclable)
-    category_totals: dict[str, float] = {}
-    for report, category in rows:
-        category_totals[category.name] = category_totals.get(category.name, 0) + float(
-            report.quantity_kg
+    totals = await session.execute(
+        select(
+            func.coalesce(func.sum(WasteReport.quantity_kg), 0),
+            func.count(WasteReport.id),
+            func.coalesce(
+                func.sum(
+                    case((WasteCategory.recyclable.is_(True), WasteReport.quantity_kg), else_=0)
+                ),
+                0,
+            ),
         )
+        .join(WasteCategory, WasteReport.category_id == WasteCategory.id)
+        .where(*filters)
+    )
+    total, report_count, recyclable = totals.one()
+    categories = await session.execute(
+        select(WasteCategory.name, func.sum(WasteReport.quantity_kg))
+        .join(WasteCategory, WasteReport.category_id == WasteCategory.id)
+        .where(*filters)
+        .group_by(WasteCategory.name)
+        .order_by(WasteCategory.name)
+    )
     return DashboardSummary(
-        total_quantity_kg=round(total, 2),
-        report_count=len(rows),
-        recyclable_percentage=round((recyclable / total) * 100, 2) if total else 0,
+        total_quantity_kg=round(float(total), 2),
+        report_count=int(report_count),
+        recyclable_percentage=round((float(recyclable) / float(total)) * 100, 2) if total else 0,
         categories=[
-            CategoryTotal(category=name, quantity_kg=round(value, 2))
-            for name, value in sorted(category_totals.items())
+            CategoryTotal(category=name, quantity_kg=round(float(value), 2))
+            for name, value in categories.all()
         ],
     )
 
