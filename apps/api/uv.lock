@@ -263,6 +263,20 @@ wheels = [
 ]
 
 [[package]]
+name = "cloudinary"
+version = "1.45.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "certifi" },
+    { name = "six" },
+    { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e2/5b/d17312bcebe524fc28a4b9032fc158737e991cde49cef7f86d18593c50c9/cloudinary-1.45.0.tar.gz", hash = "sha256:711404bfbdf87965afbefdb747ae78a03188b513846cccb0c1f8a8c612e375ba", size = 192094, upload-time = "2026-07-01T10:10:29.688Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c0/6d/5419a09c4ec2b7baf2723fbfc823bfbfea9ceeac177b30e01250ed23da2c/cloudinary-1.45.0-py3-none-any.whl", hash = "sha256:46c333101811841cf446c46054f4d9b507c2fa34c25152d1e922586c3b746196", size = 149030, upload-time = "2026-07-01T10:10:28.561Z" },
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -300,6 +314,7 @@ source = { editable = "." }
 dependencies = [
     { name = "alembic" },
     { name = "asyncpg" },
+    { name = "cloudinary" },
     { name = "email-validator" },
     { name = "fastapi" },
     { name = "httpx" },
@@ -325,6 +340,7 @@ dev = [
 requires-dist = [
     { name = "alembic", specifier = ">=1.15.1,<2" },
     { name = "asyncpg", specifier = ">=0.30.0,<1" },
+    { name = "cloudinary", specifier = ">=1.44.1,<2" },
     { name = "email-validator", specifier = ">=2.2.0,<3" },
     { name = "fastapi", specifier = ">=0.115.11,<1" },
     { name = "httpx", specifier = ">=0.28.1,<1" },
@@ -1208,6 +1224,15 @@ wheels = [
 ]
 
 [[package]]
+name = "six"
+version = "1.17.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81", size = 34031, upload-time = "2024-12-04T17:35:28.174Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050, upload-time = "2024-12-04T17:35:26.475Z" },
+]
+
+[[package]]
 name = "sqlalchemy"
 version = "2.0.52"
 source = { registry = "https://pypi.org/simple" }
@@ -1298,6 +1323,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/bb/ec/a2d5027239be97421f0bb26ca74b7be3f5597e4222431c5bb6ccc7c0f018/upstash_redis-1.7.0.tar.gz", hash = "sha256:19b46dff2d81b89da5cbfb23a38232f7ca3b9ba441b22a1df766c64972d936d1", size = 47336, upload-time = "2026-03-18T14:17:46.874Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/20/00/d4aede377301a66a751c8c240c1d989124afb42ee8a201d7f7406306dde3/upstash_redis-1.7.0-py3-none-any.whl", hash = "sha256:6c17b4cd1f88bd0d34d978b9cf13041032482f7dfb4cdf8e00f6f6277db0006a", size = 49746, upload-time = "2026-03-18T14:17:45.955Z" },
+]
+
+[[package]]
+name = "urllib3"
+version = "2.7.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/53/0c/06f8b233b8fd13b9e5ee11424ef85419ba0d8ba0b3138bf360be2ff56953/urllib3-2.7.0.tar.gz", hash = "sha256:231e0ec3b63ceb14667c67be60f2f2c40a518cb38b03af60abc813da26505f4c", size = 433602, upload-time = "2026-05-07T16:13:18.596Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7f/3e/5db95bcf282c52709639744ca2a8b149baccf648e39c8cc87553df9eae0c/urllib3-2.7.0-py3-none-any.whl", hash = "sha256:9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897", size = 131087, upload-time = "2026-05-07T16:13:17.151Z" },
 ]
 
 [[package]]

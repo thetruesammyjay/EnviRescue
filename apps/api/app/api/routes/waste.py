@@ -1,3 +1,4 @@
+import logging
 import uuid
 from typing import Annotated
 
@@ -9,10 +10,11 @@ from app.models.waste_report import WasteReport
 from app.schemas.common import Message
 from app.schemas.waste import WasteReportCreate, WasteReportPage, WasteReportRead, WasteReportUpdate
 from app.services.waste_service import create_report, list_reports
-from app.storage.images import image_storage
+from app.storage.images import ImageAsset, image_storage
 from app.utils.pagination import pagination_offset
 
 router = APIRouter(prefix="/waste", tags=["waste reports"])
+logger = logging.getLogger(__name__)
 
 
 @router.post("", response_model=WasteReportRead, status_code=status.HTTP_201_CREATED)
@@ -45,7 +47,7 @@ async def create_with_image(
         extension = (
             image.filename.rsplit(".", 1)[-1] if image.filename and "." in image.filename else "jpg"
         )
-        image_url = image_storage.save(content, extension)
+        asset = image_storage.save(content, extension)
         report = await create_report(
             session,
             user.id,
@@ -54,9 +56,12 @@ async def create_with_image(
                 quantity_kg=quantity_kg,
                 location=location,
                 description=description,
-                image_url=image_url,
+                image_url=asset.url,
             ),
         )
+        report.image_public_id = asset.public_id
+        await session.commit()
+        await session.refresh(report)
     except (ValueError, OSError) as exc:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)
@@ -111,7 +116,12 @@ async def update_report(
 async def delete_report(
     report_id: uuid.UUID, session: DatabaseSession, user: CurrentUser
 ) -> Message:
-    await owned_report(session, user, report_id)
+    report = await owned_report(session, user, report_id)
     await session.execute(delete(WasteReport).where(WasteReport.id == report_id))
     await session.commit()
+    if report.image_url and report.image_public_id:
+        try:
+            image_storage.delete(ImageAsset(url=report.image_url, public_id=report.image_public_id))
+        except Exception:
+            logger.exception("Unable to delete image asset %s", report.image_public_id)
     return Message(message="Waste report deleted.")

@@ -23,6 +23,7 @@ class WasteReport(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     location: Mapped[str] = mapped_column(String(255), index=True)
     description: Mapped[str | None] = mapped_column(Text)
     image_url: Mapped[str | None] = mapped_column(String(2048))
+    image_public_id: Mapped[str | None] = mapped_column(String(512))
 
     user = relationship("User", back_populates="waste_reports")
     category = relationship("WasteCategory", back_populates="reports")

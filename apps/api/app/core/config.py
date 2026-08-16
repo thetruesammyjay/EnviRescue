@@ -29,9 +29,13 @@ class Settings(BaseSettings):
     ai_confidence_threshold: float = Field(default=0.80, ge=0, le=1)
 
     frontend_url: AnyHttpUrl = AnyHttpUrl("http://localhost:3000")
-    image_storage_provider: Literal["local", "cloud"] = "local"
+    image_storage_provider: Literal["local", "cloudinary"] = "local"
     image_storage_path: Path = Path("uploads")
     max_image_size_mb: int = Field(default=5, ge=1, le=20)
+    cloudinary_cloud_name: str | None = None
+    cloudinary_api_key: str | None = None
+    cloudinary_api_secret: str | None = None
+    cloudinary_folder: str = "envirescue/waste"
 
     @field_validator("ai_classifier_url", mode="before")
     @classmethod
@@ -39,7 +43,13 @@ class Settings(BaseSettings):
         return None if value == "" else value
 
     @field_validator(
-        "upstash_redis_rest_url", "upstash_redis_rest_token", "hf_api_token", mode="before"
+        "upstash_redis_rest_url",
+        "upstash_redis_rest_token",
+        "hf_api_token",
+        "cloudinary_cloud_name",
+        "cloudinary_api_key",
+        "cloudinary_api_secret",
+        mode="before",
     )
     @classmethod
     def clean_optional_secret_values(cls, value: object) -> object:

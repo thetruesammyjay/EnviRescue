@@ -30,6 +30,7 @@ class WasteReportRead(BaseModel):
     location: str
     description: str | None
     image_url: str | None
+    image_public_id: str | None
     created_at: datetime
 
 
