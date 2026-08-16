@@ -37,5 +37,17 @@ class Cache:
             except Exception:
                 return
 
+    def increment_with_window(self, key: str, window_seconds: int) -> int | None:
+        """Increment a counter and set its expiry when Redis is configured."""
+        if self._client is None:
+            return None
+        try:
+            count = int(self._client.incr(key))
+            if count == 1:
+                self._client.expire(key, window_seconds)
+            return count
+        except Exception:
+            return None
+
 
 cache = Cache()

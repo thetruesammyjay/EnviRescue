@@ -11,6 +11,7 @@ from app.schemas.common import Message
 from app.schemas.waste import WasteReportCreate, WasteReportPage, WasteReportRead, WasteReportUpdate
 from app.services.waste_service import create_report, list_reports
 from app.storage.images import ImageAsset, image_storage
+from app.utils.image_validation import validate_image_bytes
 from app.utils.pagination import pagination_offset
 
 router = APIRouter(prefix="/waste", tags=["waste reports"])
@@ -43,6 +44,12 @@ async def create_with_image(
         raise HTTPException(
             status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail="Image is too large."
         )
+    try:
+        validate_image_bytes(content)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)
+        ) from exc
     try:
         extension = (
             image.filename.rsplit(".", 1)[-1] if image.filename and "." in image.filename else "jpg"

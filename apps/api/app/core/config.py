@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     ai_confidence_threshold: float = Field(default=0.80, ge=0, le=1)
 
     frontend_url: AnyHttpUrl = AnyHttpUrl("http://localhost:3000")
+    cors_origins: list[AnyHttpUrl] = []
+    rate_limit_window_seconds: int = Field(default=60, ge=1, le=3600)
+    rate_limit_max_requests: int = Field(default=30, ge=1, le=1000)
     image_storage_provider: Literal["local", "cloudinary"] = "local"
     image_storage_path: Path = Path("uploads")
     max_image_size_mb: int = Field(default=5, ge=1, le=20)

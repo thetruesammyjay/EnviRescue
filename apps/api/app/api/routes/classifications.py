@@ -12,6 +12,7 @@ from app.models.classification import Classification
 from app.models.waste_report import WasteReport
 from app.schemas.classification import ClassificationCorrection, ClassificationResult
 from app.services.classification_service import classify_image
+from app.utils.image_validation import validate_image_bytes
 
 router = APIRouter(prefix="/classifications", tags=["classification"])
 
@@ -40,6 +41,12 @@ async def classify_upload(
         raise HTTPException(
             status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail="Image is too large."
         )
+    try:
+        validate_image_bytes(content)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)
+        ) from exc
     report = None
     if report_id is not None:
         report = await session.scalar(
