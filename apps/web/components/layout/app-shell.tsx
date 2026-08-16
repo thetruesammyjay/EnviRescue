@@ -59,8 +59,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-[#f8f8f6] flex flex-col">
 
-      {/* ══════════ TOP HEADER ══════════ */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100">
+      {/* ══════════ TOP HEADER (FIXED) ══════════ */}
+      <header className="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
 
           {/* Left: Logo & Location */}
@@ -192,7 +192,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </header>
 
       {/* ══════════ PAGE CONTENT ══════════ */}
-      <main className="flex-1 mx-auto w-full max-w-6xl px-4 sm:px-6 py-6 pb-28 md:pb-10">
+      <main className="flex-1 mx-auto w-full max-w-6xl px-4 sm:px-6 pt-20 py-6 pb-28 md:pb-10">
         {children}
       </main>
 
