@@ -1,26 +1,22 @@
 import type { ReactNode } from "react";
-import { AppShell } from "./app-shell";
 
 export function SectionPage({
   title,
-  description,
+  action,
   children,
 }: {
   title: string;
-  description: string;
+  description?: string; // kept for compat but not rendered
+  action?: ReactNode;
   children?: ReactNode;
 }) {
   return (
-    <AppShell>
-      <div className="mb-8 max-w-3xl">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">{title}</h1>
-        <p className="mt-3 text-slate-600">{description}</p>
+    <div className="space-y-5">
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-medium text-slate-900">{title}</h1>
+        {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
       </div>
-      {children ?? (
-        <div className="rounded-xl border border-dashed border-slate-300 bg-white p-8 text-slate-500">
-          This module is scaffolded and ready for implementation.
-        </div>
-      )}
-    </AppShell>
+      <div>{children}</div>
+    </div>
   );
 }

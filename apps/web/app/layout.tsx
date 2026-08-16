@@ -8,6 +8,11 @@ export const metadata: Metadata = {
     template: "%s | EnviRescue",
   },
   description: "AI-powered waste classification and sustainable waste management.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+    shortcut: "/logo.png",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

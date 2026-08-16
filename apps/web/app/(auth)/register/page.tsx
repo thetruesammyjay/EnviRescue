@@ -2,5 +2,21 @@ import { AuthForm } from "@/components/forms/auth-form";
 import Link from "next/link";
 
 export default function RegisterPage() {
-  return <><h1 className="mb-6 mt-8 text-3xl font-bold">Create account</h1><AuthForm mode="register" /><p className="mt-6 text-sm">Already registered? <Link className="font-semibold text-emerald-700" href="/login">Sign in</Link></p></>;
+  return (
+    <div className="space-y-5">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900">Create EnviRescue Account</h1>
+        <p className="text-xs text-slate-500 mt-1">Join your campus community in tracking and sorting waste.</p>
+      </div>
+
+      <AuthForm mode="register" />
+
+      <p className="text-center text-xs text-slate-500">
+        Already registered?{" "}
+        <Link className="font-bold text-emerald-700 hover:text-emerald-800" href="/login">
+          Sign in
+        </Link>
+      </p>
+    </div>
+  );
 }
