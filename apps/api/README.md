@@ -32,6 +32,15 @@ uv run pytest tests/integration
 
 The included `Dockerfile` runs database migrations and starts the API on port `7860`, which is the default Spaces port. Configure `DATABASE_URL`, `JWT_SECRET`, and the existing optional Redis, Cloudinary, and classifier variables as Space secrets. Do not copy `.env` into the image. Set `SERVICE=worker` in a separate worker Space or process to run the Redis classification worker instead of the HTTP API.
 
+Deployment checklist:
+
+1. Configure `APP_ENV=production`, `DATABASE_URL`, and a random `JWT_SECRET`.
+2. Configure both Upstash Redis variables for caching, rate limiting, and worker jobs.
+3. Run the API Space with `SERVICE=api` and verify `/health/live`, `/health/ready`, and `/health/ai`.
+4. Run a worker Space with `SERVICE=worker` when asynchronous classification is enabled.
+5. Keep Cloudinary and Hugging Face credentials in Space secrets, never in the image.
+6. Roll back by redeploying the previous image revision; migrations are transactional.
+
 ## Health endpoints
 
 - `GET /health/live` is a dependency-free liveness check for Hugging Face Spaces.

@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Literal
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from pydantic import AnyHttpUrl, Field, field_validator
+from pydantic import AnyHttpUrl, Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -82,6 +82,26 @@ class Settings(BaseSettings):
         return urlunsplit(
             (parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment)
         )
+
+    @model_validator(mode="after")
+    def validate_production_secrets(self) -> "Settings":
+        if self.app_env == "production" and self.jwt_secret == "development-only-change-me":
+            raise ValueError("JWT_SECRET must be changed in production.")
+        if self.image_storage_provider == "cloudinary":
+            missing = [
+                name
+                for name, value in {
+                    "CLOUDINARY_CLOUD_NAME": self.cloudinary_cloud_name,
+                    "CLOUDINARY_API_KEY": self.cloudinary_api_key,
+                    "CLOUDINARY_API_SECRET": self.cloudinary_api_secret,
+                }.items()
+                if not value
+            ]
+            if missing:
+                raise ValueError(
+                    f"Cloudinary storage is missing configuration: {', '.join(missing)}"
+                )
+        return self
 
 
 @lru_cache
