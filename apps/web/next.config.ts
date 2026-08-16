@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
-import path from "node:path";
 
 const nextConfig: NextConfig = {
+  output: "export",
+  images: {
+    unoptimized: true,
+  },
   reactStrictMode: true,
   transpilePackages: ["@envirescue/types", "@envirescue/ui"],
-  outputFileTracingRoot: path.join(__dirname, "../.."),
 };
 
 export default nextConfig;

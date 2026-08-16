@@ -20,7 +20,7 @@
     "turbo": "^2.4.4"
   },
   "engines": {
-    "node": ">=20"
+    "node": "22.x"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["sharp"]

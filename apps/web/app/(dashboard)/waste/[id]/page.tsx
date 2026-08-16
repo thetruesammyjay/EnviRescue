@@ -1,14 +1,9 @@
-"use client";
-
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { SectionPage } from "@/components/layout/section-page";
 import { CategoryIcon } from "@/components/ui/category-icon";
 import {
-  IconArrowRight,
   IconMapPin,
   IconScale,
-  IconCalendar,
   IconCheckCircle,
   IconRecycle,
   IconScan,
@@ -16,10 +11,19 @@ import {
 import { INITIAL_MOCK_REPORTS } from "@/lib/mock-data";
 import { Button } from "@envirescue/ui";
 
-export default function WasteReportDetailPage() {
-  const params = useParams();
-  const reportId = params?.id as string;
-  const report = INITIAL_MOCK_REPORTS.find((r) => r.id === reportId) || INITIAL_MOCK_REPORTS[0];
+export function generateStaticParams() {
+  return INITIAL_MOCK_REPORTS.map((report) => ({
+    id: report.id,
+  }));
+}
+
+export default async function WasteReportDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const report = INITIAL_MOCK_REPORTS.find((r) => r.id === id) || INITIAL_MOCK_REPORTS[0];
 
   return (
     <SectionPage
