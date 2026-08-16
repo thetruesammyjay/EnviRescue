@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     ai_classifier_url: AnyHttpUrl | None = None
     hf_api_token: str | None = None
     ai_request_timeout_seconds: float = Field(default=30, ge=1, le=120)
+    ai_max_retries: int = Field(default=2, ge=0, le=5)
+    ai_retry_backoff_seconds: float = Field(default=0.5, ge=0, le=10)
+    ai_circuit_failure_threshold: int = Field(default=3, ge=1, le=20)
+    ai_circuit_recovery_seconds: float = Field(default=30, ge=1, le=600)
     ai_confidence_threshold: float = Field(default=0.80, ge=0, le=1)
 
     frontend_url: AnyHttpUrl = AnyHttpUrl("http://localhost:3000")

@@ -49,9 +49,13 @@ AI_PROVIDER=remote
 AI_MODEL_NAME=prithivMLmods/Augmented-Waste-Classifier-SigLIP2
 AI_CLASSIFIER_URL=https://YOUR-CLASSIFIER-SPACE.hf.space/classify
 HF_API_TOKEN=optional-space-token
+AI_MAX_RETRIES=2
+AI_RETRY_BACKOFF_SECONDS=0.5
+AI_CIRCUIT_FAILURE_THRESHOLD=3
+AI_CIRCUIT_RECOVERY_SECONDS=30
 ```
 
-The adapter sends the uploaded image as the `file` multipart field and accepts the classifier response fields `classification`, `detected_type`, and `confidence`. It maps the engineer's labels (for example `Plastic`, `Glass`, and `Biological`) to EnviRescue categories and marks predictions below `AI_CONFIDENCE_THRESHOLD` for review.
+The adapter sends the uploaded image as the `file` multipart field and accepts the classifier response fields `classification`, `detected_type`, and `confidence`. It maps the engineer's labels (for example `Plastic`, `Glass`, and `Biological`) to EnviRescue categories and marks predictions below `AI_CONFIDENCE_THRESHOLD` for review. Transient network errors and 5xx responses are retried with exponential backoff; repeated failures open a short-lived circuit so requests fail quickly and can use manual classification.
 
 ## Classification fallback and manual review
 
