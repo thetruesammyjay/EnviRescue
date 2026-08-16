@@ -164,19 +164,50 @@ export async function classifyWasteImage(formData: FormData): Promise<Classifica
   );
 }
 
+interface ApiWasteItem {
+  id: string;
+  category?: string;
+  category_id?: string;
+  icon_key?: string;
+  iconKey?: string;
+  quantity_kg?: number | string;
+  quantityKg?: number | string;
+  location?: string;
+  description?: string;
+  created_at?: string;
+  date?: string;
+  recyclable?: boolean;
+  status?: "verified" | "pending" | "review_required";
+  confidence?: number;
+}
+
+interface ApiCategoryItem {
+  id?: string;
+  name?: string;
+  slug?: string;
+  is_recyclable?: boolean;
+  color?: string;
+  bg_color?: string;
+  border_color?: string;
+  text_color?: string;
+  icon_key?: string;
+  description?: string;
+  fun_fact?: string;
+}
+
 /* ── Waste Reports ── */
 export async function apiGetWasteReports(page = 1, pageSize = 20): Promise<{ items: WasteReportItem[]; total: number }> {
-  const res = await apiRequest<{ items: any[]; total: number }>(
+  const res = await apiRequest<{ items: ApiWasteItem[]; total: number }>(
     `/api/v1/waste?page=${page}&page_size=${pageSize}`,
     undefined,
     { items: INITIAL_MOCK_REPORTS, total: INITIAL_MOCK_REPORTS.length },
   );
 
   return {
-    items: res.items.map((r: any) => ({
+    items: res.items.map((r: ApiWasteItem) => ({
       id: r.id,
       category: r.category ?? r.category_id ?? "General Waste",
-      iconKey: (r.icon_key ?? "plastic") as any,
+      iconKey: (r.icon_key ?? r.iconKey ?? "plastic") as WasteReportItem["iconKey"],
       quantityKg: Number(r.quantity_kg ?? r.quantityKg ?? 1),
       location: r.location ?? "Campus Station",
       description: r.description ?? "Waste report",
@@ -205,9 +236,9 @@ export async function apiCreateWasteReport(formData: FormData) {
 
 /* ── Categories ── */
 export async function apiGetCategories(): Promise<CategoryItem[]> {
-  const list = await apiRequest<any[]>("/api/v1/categories", undefined, MOCK_CATEGORIES);
+  const list = await apiRequest<ApiCategoryItem[]>("/api/v1/categories", undefined, MOCK_CATEGORIES);
   if (!Array.isArray(list) || list.length === 0) return MOCK_CATEGORIES;
-  return list.map((c, i) => ({
+  return list.map((c: ApiCategoryItem, i: number) => ({
     id: c.id ?? `cat-${i}`,
     name: c.name ?? "Waste",
     slug: c.slug ?? c.name?.toLowerCase().replace(/\s+/g, "-") ?? "waste",
@@ -216,7 +247,7 @@ export async function apiGetCategories(): Promise<CategoryItem[]> {
     bgColor: c.bg_color ?? "bg-pastel-green",
     borderColor: c.border_color ?? "border-emerald-200",
     textColor: c.text_color ?? "text-emerald-900",
-    iconKey: (c.icon_key ?? "plastic") as any,
+    iconKey: (c.icon_key ?? "plastic") as CategoryItem["iconKey"],
     description: c.description ?? "",
     funFact: c.fun_fact ?? "",
   }));
