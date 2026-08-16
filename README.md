@@ -97,7 +97,7 @@ flowchart TB
     API --> STORAGE
 ```
 
-The Next.js frontend communicates with the FastAPI backend over HTTPS. The backend owns authentication, validation, application rules, AI inference, and access to external data services. The image-storage provider will be selected during implementation; PostgreSQL stores image references rather than image binary data.
+The Next.js frontend communicates with the FastAPI backend over HTTPS. The backend owns authentication, validation, application rules, AI inference, and access to external data services. Cloudinary stores uploaded images and PostgreSQL stores the returned secure URL and public ID rather than image binary data. Local storage remains available for development.
 
 ### Technology Stack
 
@@ -423,7 +423,7 @@ Users should avoid uploading images containing faces, private documents, or othe
 - Neon account
 - Upstash account
 - Hugging Face account
-- An image-storage service account once a provider is selected
+- Cloudinary account for image storage
 
 ### Setup
 
@@ -470,7 +470,17 @@ AI_MODEL_NAME=<model-name>
 FRONTEND_URL=http://localhost:3000
 ```
 
-Image-storage variables will be added after the provider is selected. Real credentials must never be committed.
+For Cloudinary-backed storage, set:
+
+```dotenv
+IMAGE_STORAGE_PROVIDER=cloudinary
+CLOUDINARY_CLOUD_NAME=<cloud-name>
+CLOUDINARY_API_KEY=<api-key>
+CLOUDINARY_API_SECRET=<api-secret>
+CLOUDINARY_FOLDER=envirescue/waste
+```
+
+Cloudinary credentials must be stored as Hugging Face Space secrets or deployment environment variables. Real credentials must never be committed.
 
 ---
 
@@ -482,7 +492,7 @@ Image-storage variables will be added after the provider is selected. Real crede
 | FastAPI backend and classifier | Hugging Face Spaces |
 | PostgreSQL database | Neon |
 | Redis cache | Upstash |
-| Image storage | Provider to be selected |
+| Image storage | Cloudinary |
 
 The deployed system must expose a backend health endpoint and restrict production access to the configured frontend origin.
 
